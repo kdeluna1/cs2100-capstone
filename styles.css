@@ -79,6 +79,8 @@ main {
 }
 
 .card {
+  width: 100%;
+  max-width: 900px;
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
@@ -96,11 +98,17 @@ section h2 {
     margin-bottom: 12px;
 }
 
-.search-form {
-  display: flex;
+.search-section {
   gap: 12px;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.search-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .input-field {
