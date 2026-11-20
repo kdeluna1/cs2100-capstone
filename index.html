@@ -80,6 +80,17 @@
                     <button type="button" class="btn-unit" id="clear-filters">CLEAR FILTERS</button>
                 </div>
             </form>
+            <div class="results-toolbar">
+                <p id="results-count" aria-live="polite">Forecast entries will appear here.</p>
+                <div class="field-group sort-group">
+                    <label for="sort-order">Sort forecast</label>
+                    <select id="sort-order" class="input-field">
+                        <option value="time">Date (earliest first)</option>
+                        <option value="temp-asc">Temperature (low to high)</option>
+                        <option value="temp-desc">Temperature (high to low)</option>
+                    </select>
+                </div>
+            </div>
             <div class="forecast-box">
                 <span class="forecast-title">Hourly Forecast</span>
                 <div class="chart-container">

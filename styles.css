@@ -136,7 +136,7 @@ section h2 {
   flex-wrap: wrap;
 }
 
-.search-form {
+.search-form, .filter-form {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -235,6 +235,26 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.filter-form {
+    padding: 16px;
+    background: #263449;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.field-group label {
+    color: var(--text-secondary);
+    font-size: .9rem;
+    font-weight: 650;
 }
 
 .forecast-box {
