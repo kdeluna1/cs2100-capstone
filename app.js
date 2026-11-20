@@ -74,6 +74,10 @@ function getWindDirection(deg) {
   return directions[Math.round(deg / 45) % 8];
 }
 
+function formatCondition(condition) {
+  return condition.replace(/\b\w/g, char => char.toUpperCase());
+}
+
 async function fetchWeather(city) {
   const url = `${BASE_URL}?q=${encodeURIComponent(city)}&units=${selectedUnit}&appid=${API_KEY}`;
   const response = await fetch(url);
@@ -96,7 +100,7 @@ function renderSelectedCity(model) {
 
   elements.cityName.textContent = `${model.city.toUpperCase()}, ${model.country.toUpperCase()}`;
   elements.temperature.textContent = `${current.temperature}${units.temp}`;
-  elements.condition.textContent = current.condition.replace(/\b\w/g, char => char.toUpperCase());
+  elements.condition.textContent = formatCondition(current.condition);
   elements.feelsLike.textContent = `Feels Like ${current.feelsLike}${units.temp}`;
   elements.humidityWind.textContent = `Humidity ${current.humidity}% | Wind ${current.windSpeed} ${units.speed} ${windDir}`.trim();
 }
@@ -108,13 +112,13 @@ async function executePipeline(city) {
   try {
     weatherData = await fetchWeather(city);
     renderSelectedCity(weatherData);
+    renderForecastCards(weatherData.forecast);
     elements.status.textContent = `Showing forecast for ${weatherData.city}, ${weatherData.country}.`;
   } catch (error) {
     elements.status.textContent = error.message;
+    elements.resultsCount.textContent = "0 forecast intervals";
   }
 }
-
-
 
 elements.cityForm.addEventListener("submit", event => {
   event.preventDefault();
@@ -158,4 +162,45 @@ elements.metricButton.addEventListener("click", async() => {
   } 
 });
 
+function renderForecastCards(forecastItems = weatherData ? weatherData.forecast : []) {
+  if (!weatherData) {
+    elements.forecastList.replaceChildren(createEmptyMessage("Your forecast cards will load here."));
+    elements.resultsCount.textContent = "Forecast entries will appear here.";
+    return;
+  }
+
+  const units = getUnitSymbols();
+  const fragment = document.createDocumentFragment();
+
+  if (forecastItems.length === 0) {
+    fragment.append(createEmptyMessage("No forecast intervals available."));
+  } else {
+    forecastItems.forEach(item => {
+      const card = document.createElement("article");
+      card.className = "forecast-card";
+
+      const time = document.createElement("p");
+      time.className = "forecast-date";
+      time.textContent = item.formattedTime;
+
+      const temp = document.createElement("p");
+      temp.className = "forecast-card-temp";
+      temp.textContent = `${item.temperature}${units.temp}`;
+
+      const condition = document.createElement("p");
+      condition.className = "forecast-condition";
+      condition.textContent = formatCondition(item.condition);
+
+      const meta = document.createElement("p");
+      meta.className = "forecast-meta";
+      meta.textContent = `Low ${item.tempMin}${units.temp} · High ${item.tempMax}${units.temp} · Humidity ${item.humidity}%`;
+
+      card.append(time, temp, condition, meta);
+      fragment.append(card);
+    });
+  }
+
+  elements.forecastList.replaceChildren(fragment);
+  elements.resultsCount.textContent = `Showing ${forecastItems.length} of ${weatherData.forecast.length} forecast intervals`;
+}
 executePipeline("Seattle");
