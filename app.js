@@ -1,41 +1,6 @@
 const API_KEY = "53632f7030cac32ed1df9f8a19010344";
 const BASE_URL = "https://api.openweathermap.org/data/2.5/forecast";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class WeatherDataModel {
   constructor(rawApiResponse) {
     this.city = rawApiResponse.city.name;
@@ -60,28 +25,36 @@ class WeatherDataModel {
   }
 }
 
-async function executePipeline(city = "Atlanta") {
-  try {
-    const url = `${BASE_URL}?q=${encodeURIComponent(city)}&units=imperial&appid=${API_KEY}`;
-    const response = await fetch(url);
+const elements = {
+  cityForm: document.querySelector("#city-form"),
+  cityInput: document.querySelector("#city-input"),
+  cityError: document.querySelector("#city-error"),
+  status: document.querySelector("#status-message"),
+  cityName: document.querySelector("#detail-city-name"),
+  temperature: document.querySelector("#detail-temp"),
+  condition: document.querySelector("#detail-condition"),
+  feelsLike: document.querySelector("#detail-feels-like"),
+  humidityWind: document.querySelector("#detail-humidity-wind"),
+  forecastList: document.querySelector("#forecast-list"),
+  resultsCount: document.querySelector("#results-count"),
+  filterForm: document.querySelector("#filter-form"),
+  conditionFilter: document.querySelector("#condition-filter"),
+  conditionError: document.querySelector("#condition-error"),
+  minTemp: document.querySelector("#min-temp"),
+  minError: document.querySelector("#min-error"),
+  maxTemp: document.querySelector("#max-temp"),
+  maxError: document.querySelector("#max-error"),
+  sortOrder: document.querySelector("#sort-order"),
+  clearFilters: document.querySelector("#clear-filters"),
+  saveButton: document.querySelector("#save-button"),
+  imperialButton: document.querySelector("#unit-imperial"),
+  metricButton: document.querySelector("#unit-metric")
+};
 
-    if (!response.ok) {
-      throw new Error(`API HTTP Error! Status: ${response.status} - ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    const weatherData = new WeatherDataModel(data);
-
-    console.log("Parsed & Cleaned Weather Data Object Array");
-    console.log("Location:", `${weatherData.city}, ${weatherData.country}`);
-    console.log("Total Entries Extracted:", weatherData.forecast.length);
-    console.log("Forecast Array (Objects):", weatherData.forecast);
-    console.log("\nSample Single Entry Object Structure:", weatherData.forecast[0]);
-
-    return weatherData;
-  } catch (error) {
-    console.error("Fetch Error", error.message);
-  }
-}
+let weatherData = null;
+let selectedUnit = "imperial";
+let hourlyChart = null;
+let dailyChart = null;
+let savedCities = JSON.parse(localStorage.getItem("horizonSavedCities") || "[]");
 
 executePipeline("Atlanta");

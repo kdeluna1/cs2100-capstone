@@ -29,13 +29,15 @@
         </section>
         <section class="card search-section">
             <h2>FIND A CITY</h2>
-            <form class="search-form">
+            <form class="search-form" id = "city-form" novalidate>
                 <input id="city-input" type="search" class="input-field" placeholder="Enter a city (e.g., Atlanta)"
                     required>
+                <span class="error-message" id="city-error" aria-live="polite"></span>
                 <button type="submit" id="search-btn" class="btn-primary">SEARCH</button>
                 <button type="button" id="unit-imperial" class="btn-unit active">Imperial (°F)</button>
                 <button type="button" id="unit-metric" class="btn-unit">Metric (°C)</button>
             </form>
+            <p class="status-message" id="status-message">Loading forecast…</p>
         </section>
         <section class="card selectied-city">
             <div class="selected-header">
