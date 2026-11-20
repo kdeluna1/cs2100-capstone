@@ -308,3 +308,19 @@ button {
   padding: 12px;
   min-width: 0px;
 }
+
+.forecast-date, .forecast-meta {
+    color: var(--text-secondary);
+    font-size: .84rem;
+}
+
+.forecast-card-temp {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.forecast-condition {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
