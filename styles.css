@@ -138,6 +138,7 @@ section h2 {
 
 .search-form, .filter-form {
   display: flex;
+  justify-content: flex-end;
   gap: 12px;
   flex-wrap: wrap;
   align-items: center;
@@ -242,6 +243,11 @@ button {
     background: #263449;
     border: 1px solid var(--border-color);
     border-radius: 10px;
+}
+
+.filter-buttons {
+  gap: 12px;
+  display: flex;
 }
 
 .field-group {
