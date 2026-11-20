@@ -72,4 +72,44 @@ function getWindDirection(deg) {
   return directions[Math.round(deg / 45) % 8];
 }
 
-executePipeline("Atlanta");
+async function fetchWeather(city) {
+  const url = `${BASE_URL}?q=${encodeURIComponent(city)}&units=${selectedUnit}&appid=${API_KEY}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error(`City "${city}" not found. Check the spelling and try again.`);
+    }
+    throw new Error(`Unable to fetch weather data (Status: ${response.status}).`);
+  }
+
+  const rawData = await response.json();
+  return new WeatherDataModel(rawData);
+}
+
+function renderSelectedCity(model) {
+  const current = model.forecast[0];
+  const units = getUnitSymbols();
+  const windDir = getWindDirection(current.windDeg);
+
+  elements.cityName.textContent = `${model.city.toUpperCase()}, ${model.country.toUpperCase()}`;
+  elements.temperature.textContent = `${current.temperature}${units.temp}`;
+  elements.condition.textContent = current.condition;
+  elements.feelsLike.textContent = `Feels Like ${current.feelsLike}${units.temp}`;
+  elements.humidityWind.textContent = `Humidity ${current.humidity}% | Wind ${current.windSpeed} ${units.speed} ${windDir}`.trim();
+}
+
+async function executePipeline(city) {
+  elements.status.textContent = `Loading forecast for ${city}…`;
+  elements.cityError.textContent = "";
+
+  try {
+    weatherData = await fetchWeather(city);
+    renderSelectedCity(weatherData);
+    elements.status.textContent = `Showing forecast for ${weatherData.city}, ${weatherData.country}.`;
+  } catch (error) {
+    elements.status.textContent = error.message;
+  }
+}
+
+executePipeline("Anchorage");
