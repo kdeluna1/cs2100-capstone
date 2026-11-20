@@ -209,7 +209,7 @@ button {
   background-color: var(--border-active);
 }
 
-.selected-header {
+.selected-header, .results-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -255,6 +255,14 @@ button {
     color: var(--text-secondary);
     font-size: .9rem;
     font-weight: 650;
+}
+
+.results-toolbar {
+    margin: 18px 0 12px;
+}
+
+.sort-group {
+    flex: 0 1 240px;
 }
 
 .forecast-box {

@@ -54,6 +54,22 @@
                 </div>
             </div>
         </section>
+        <section class="card results-section">
+            <h2>FORECAST SUMMARY</h2>
+            <div id="forecast-list" class="forecast-grid">
+                <div class="forecast-box">
+                <span class="forecast-title">Hourly Forecast</span>
+                <div class="chart-container">
+                    <canvas id="hourlyChart"></canvas>
+                </div>
+            </div>
+            <div class="forecast-box" style="margin-top: 24px;">
+                <span class="forecast-title">5-Day Forecast</span>
+                <div class="chart-container">
+                    <canvas id="dailyChart"></canvas>
+                </div>
+            </div>
+        </section>
         <section class="card results-section" aria-label="Forecasts">
             <h2>RESULTS</h2>
             <form id="filter-form" class="filter-form" novalidate>
@@ -91,22 +107,14 @@
                     </select>
                 </div>
             </div>
-            <div class="forecast-box">
-                <span class="forecast-title">Hourly Forecast</span>
-                <div class="chart-container">
-                    <canvas id="hourlyChart"></canvas>
-                </div>
+            <div id="forecast-list" class="forecast-grid">
+                <p class="empty-state">Your forecast cards will load here.</p>
             </div>
-            <div class="forecast-box" style="margin-top: 24px;">
-                <span class="forecast-title">5-Day Forecast</span>
-                <div class="chart-container">
-                    <canvas id="dailyChart"></canvas>
-                </div>
-            </div>
+            
         </section>
     </main>
     <footer>
-        <p>&copy; 2026 Keneth Kyle De Luna CS2100 Capstone Project.</p>
+        <p>&copy; 2026 Kenneth Kyle De Luna CS2100 Capstone Project.</p>
     </footer>
 </body>
 
