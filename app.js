@@ -96,7 +96,7 @@ function renderSelectedCity(model) {
 
   elements.cityName.textContent = `${model.city.toUpperCase()}, ${model.country.toUpperCase()}`;
   elements.temperature.textContent = `${current.temperature}${units.temp}`;
-  elements.condition.textContent = current.condition;
+  elements.condition.textContent = current.condition.replace(/\b\w/g, char => char.toUpperCase());
   elements.feelsLike.textContent = `Feels Like ${current.feelsLike}${units.temp}`;
   elements.humidityWind.textContent = `Humidity ${current.humidity}% | Wind ${current.windSpeed} ${units.speed} ${windDir}`.trim();
 }
@@ -114,4 +114,15 @@ async function executePipeline(city) {
   }
 }
 
-executePipeline("Anchorage");
+elements.cityForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const query = elements.cityInput.value.trim();
+  if (!query) {
+    elements.cityError.textContent = "Please enter a city name.";
+    elements.cityInput.focus();
+    return;
+  }
+  executePipeline(query);
+});
+
+executePipeline("Seattle");
