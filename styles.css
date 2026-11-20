@@ -60,7 +60,7 @@ header {
     font-weight: bold;
 }
 
-p {
+.intro-section p, #status-message {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -136,6 +136,7 @@ section h2 {
 
 .search-section {
   gap: 12px;
+  padding-bottom: 0px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -227,9 +228,16 @@ button {
   color: var(--text-primary);
 }
 
+.selected-city p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
 .selected-details-wrapper {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
@@ -322,5 +330,12 @@ button {
 .forecast-condition {
     font-size: 1rem;
     font-weight: 600;
+    margin: 2px 0;
     color: var(--text-primary);
+}
+
+.forecast-card img{
+  display: block;
+  width: 64px;
+  height: 64px;
 }

@@ -100,7 +100,7 @@ function renderSelectedCity(model) {
 
   elements.cityName.textContent = `${model.city.toUpperCase()}, ${model.country.toUpperCase()}`;
   elements.temperature.textContent = `${current.temperature}${units.temp}`;
-  elements.condition.textContent = formatCondition(current.condition);
+  elements.condition.textContent = current.condition.replace(/\b\w/g, char => char.toUpperCase());
   elements.feelsLike.textContent = `Feels Like ${current.feelsLike}${units.temp}`;
   elements.humidityWind.textContent = `Humidity ${current.humidity}% | Wind ${current.windSpeed} ${units.speed} ${windDir}`.trim();
 }
@@ -183,6 +183,12 @@ function renderForecastCards(forecastItems = weatherData ? weatherData.forecast 
       time.className = "forecast-date";
       time.textContent = item.formattedTime;
 
+      const icon = document.createElement("img");
+      icon.src = `https://openweathermap.org/img/wn/${item.iconCode}@2x.png`;
+      icon.alt = item.condition;
+      icon.width = 64;
+      icon.height = 64;
+
       const temp = document.createElement("p");
       temp.className = "forecast-card-temp";
       temp.textContent = `${item.temperature}${units.temp}`;
@@ -195,7 +201,7 @@ function renderForecastCards(forecastItems = weatherData ? weatherData.forecast 
       meta.className = "forecast-meta";
       meta.textContent = `Low ${item.tempMin}${units.temp} · High ${item.tempMax}${units.temp} · Humidity ${item.humidity}%`;
 
-      card.append(time, temp, condition, meta);
+      card.append(time, icon, temp, condition, meta);
       fragment.append(card);
     });
   }
