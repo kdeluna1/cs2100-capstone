@@ -114,6 +114,8 @@ async function executePipeline(city) {
   }
 }
 
+
+
 elements.cityForm.addEventListener("submit", event => {
   event.preventDefault();
   const query = elements.cityInput.value.trim();
@@ -123,6 +125,37 @@ elements.cityForm.addEventListener("submit", event => {
     return;
   }
   executePipeline(query);
+});
+
+function updateUnitButtons() {
+  const imperial = selectedUnit === "imperial";
+  elements.imperialButton.classList.toggle("active", imperial);
+  elements.metricButton.classList.toggle("active", !imperial);
+  elements.imperialButton.setAttribute("aria-pressed", String(imperial));
+  elements.metricButton.setAttribute("aria-pressed", String(!imperial));
+  document.querySelectorAll(".unit-label").forEach(label => {
+    label.textContent = getUnitSymbols().symbol;
+  });
+}
+
+elements.imperialButton.addEventListener("click", async () => {
+  if (selectedUnit === "imperial"){
+     return;
+  }
+  selectedUnit = "imperial";
+  updateUnitButtons();
+  if (weatherData) await executePipeline(weatherData.city);
+});
+
+elements.metricButton.addEventListener("click", async() => {
+  if (selectedUnit === "metric"){
+    return;
+  } 
+  selectedUnit = "metric";
+  updateUnitButtons();
+  if (weatherData){
+    await executePipeline(weatherData.city);
+  } 
 });
 
 executePipeline("Seattle");
