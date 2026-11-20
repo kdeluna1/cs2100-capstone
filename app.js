@@ -13,11 +13,13 @@ class WeatherDataModel {
       return {
         timestamp: item.dt,
         formattedTime: new Date(item.dt * 1000).toLocaleString(),
+        feelsLike: Math.round(item.main.feels_like),
         temperature: Math.round(item.main.temp),
         tempMin: Math.round(item.main.temp_min),
         tempMax: Math.round(item.main.temp_max),
         humidity: item.main.humidity,
-        windSpeed: item.wind.speed,
+        windSpeed: Math.round(item.wind.speed),
+        windDeg: item.wind.deg,
         condition: item.weather[0].description,
         iconCode: item.weather[0].icon
       };
