@@ -57,4 +57,19 @@ let hourlyChart = null;
 let dailyChart = null;
 let savedCities = JSON.parse(localStorage.getItem("horizonSavedCities") || "[]");
 
+function getUnitSymbols() {
+  return selectedUnit === "imperial"
+    ? { temp: "°F", speed: "mph" }
+    : { temp: "°C", speed: "m/s" };
+}
+
+function getWindDirection(deg) {
+  if (deg === undefined || deg === null)
+    {
+      return "";
+    } 
+  const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+  return directions[Math.round(deg / 45) % 8];
+}
+
 executePipeline("Atlanta");

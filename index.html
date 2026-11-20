@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="header-content">
-            <h1 class="title" href="index.html">HORIZON</h1>
+            <a href="index.html"><h1 class="title">HORIZON</h1></a>
             <nav aria-label="Main navigation">
                 <a href="index.html">Home</a>
                 <a href="cities.html">Saved Cities</a>
@@ -39,7 +39,7 @@
             </form>
             <p class="status-message" id="status-message">Loading forecast…</p>
         </section>
-        <section class="card selectied-city">
+        <section class="card selected-city">
             <div class="selected-header">
                 <h2>SELECTED CITY</h2>
                 <button type="button" class="btn-save" id="save-button">SAVE</button>
@@ -58,17 +58,18 @@
         </section>
         <section class="card results-section">
             <h2>FORECAST SUMMARY</h2>
-            <div id="forecast-list" class="forecast-grid">
+            <div class="forecast-grid">
                 <div class="forecast-box">
-                <span class="forecast-title">Hourly Forecast</span>
-                <div class="chart-container">
-                    <canvas id="hourlyChart"></canvas>
+                    <span class="forecast-title">Hourly Forecast</span>
+                    <div class="chart-container">
+                        <canvas id="hourlyChart"></canvas>
+                    </div>  
                 </div>
-            </div>
-            <div class="forecast-box" style="margin-top: 24px;">
-                <span class="forecast-title">5-Day Forecast</span>
-                <div class="chart-container">
-                    <canvas id="dailyChart"></canvas>
+                <div class="forecast-box" style="margin-top: 24px;">
+                    <span class="forecast-title">5-Day Forecast</span>
+                    <div class="chart-container">
+                        <canvas id="dailyChart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
