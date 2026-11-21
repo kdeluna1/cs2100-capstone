@@ -50,7 +50,9 @@ const elements = {
   clearFilters: document.querySelector("#clear-filters"),
   saveButton: document.querySelector("#save-button"),
   imperialButton: document.querySelector("#unit-imperial"),
-  metricButton: document.querySelector("#unit-metric")
+  metricButton: document.querySelector("#unit-metric"),
+  hourlyCanvas: document.querySelector("#hourlyChart"),
+  dailyCanvas: document.querySelector("#dailyChart")
 };
 
 let weatherData = null;
@@ -105,6 +107,67 @@ function renderSelectedCity(model) {
   elements.humidityWind.textContent = `Humidity ${current.humidity}% | Wind ${current.windSpeed} ${units.speed} ${windDir}`.trim();
 }
 
+function renderCharts(model = weatherData) {
+  if (!model || typeof Chart === "undefined") {
+    return;
+  }
+
+  const units = getUnitSymbols();
+
+  const upcoming = model.forecast.slice(0, 8);
+  const hourlyLabels = upcoming.map(item =>
+    new Date(item.timestamp * 1000).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+  );
+  const hourlyTemps = upcoming.map(item => item.temperature);
+
+  if (hourlyChart) {
+    hourlyChart.destroy();
+  }
+
+  if (elements.hourlyCanvas) {
+    hourlyChart = new Chart(elements.hourlyCanvas, {
+      type: "line",
+      data: {
+        labels: hourlyLabels,
+        datasets: [
+          {
+            label: `Temperature (${units.temp})`,
+            data: hourlyTemps,
+            borderColor: "#818cf8",
+            backgroundColor: "rgba(129, 140, 248, 0.2)",
+            borderWidth: 2,
+            tension: 0.35,
+            fill: true,
+            pointBackgroundColor: "#f8fafc",
+            pointRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: "#f8fafc" }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: "#cbd5e1" },
+            grid: { color: "rgba(148, 163, 184, 0.15)" }
+          },
+          y: {
+            ticks: {
+              color: "#cbd5e1",
+              callback: value => `${value}${units.temp}`
+            },
+            grid: { color: "rgba(148, 163, 184, 0.15)" }
+          }
+        }
+      }
+    });
+  }
+}
 async function executePipeline(city) {
   elements.status.textContent = `Loading forecast for ${city}…`;
   elements.cityError.textContent = "";
@@ -113,6 +176,7 @@ async function executePipeline(city) {
     weatherData = await fetchWeather(city);
     renderSelectedCity(weatherData);
     renderForecastCards(weatherData.forecast);
+    renderCharts(weatherData);
     elements.status.textContent = `Showing forecast for ${weatherData.city}, ${weatherData.country}.`;
   } catch (error) {
     elements.status.textContent = error.message;
