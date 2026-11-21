@@ -80,6 +80,13 @@ function formatCondition(condition) {
   return condition.replace(/\b\w/g, char => char.toUpperCase());
 }
 
+function createEmptyMessage(text) {
+  const message = document.createElement("p");
+  message.className = "empty-state";
+  message.textContent = text;
+  return message;
+}
+
 async function fetchWeather(city) {
   const url = `${BASE_URL}?q=${encodeURIComponent(city)}&units=${selectedUnit}&appid=${API_KEY}`;
   const response = await fetch(url);
@@ -406,8 +413,14 @@ function applyFilter(){
 elements.filterForm.addEventListener("submit", event => {
   event.preventDefault();
   applyFilter();
+  applySort();
 });
 
+elements.clearFilters.addEventListener("click", () => {
+  elements.filterForm.reset();
+  applyFilter();
+  applySort();
+});
 
 elements.sortOrder.addEventListener("change", () => {
   applySort();
