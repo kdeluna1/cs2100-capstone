@@ -350,13 +350,46 @@ function renderForecastCards(forecastItems = weatherData ? weatherData.forecast 
   elements.resultsCount.textContent = `Showing ${forecastItems.length} of ${weatherData.forecast.length} forecast intervals`;
 }
 
-function sortForecasts() {
+function validateFilters() {
+  let isValid = true;
+
+  const conditionText = elements.conditionFilter.value.trim();
+  const minText = elements.minTemp.value.trim();
+  const maxText = elements.maxTemp.value.trim();
+
+  if (conditionText.length > 40) {
+    elements.conditionError.textContent = "Condition filter must be 40 characters or fewer.";
+    isValid = false;
+  }
+
+  const minNum = minText === "" ? null : Number(minText);
+  const maxNum = maxText === "" ? null : Number(maxText);
+
+  if (minText !== "" && Number.isNaN(minNum)) {
+    elements.minError.textContent = "Enter a valid minimum temperature.";
+    isValid = false;
+  }
+
+  if (maxText !== "" && Number.isNaN(maxNum)) {
+    elements.maxError.textContent = "Enter a valid maximum temperature.";
+    isValid = false;
+  }
+
+  if (isValid && minNum !== null && maxNum !== null && minNum > maxNum) {
+    elements.maxError.textContent = "Maximum temperature must be at least the minimum temperature.";
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+function sortForecasts(items = weatherData ? weatherData.forecast : []) {
   if (!weatherData){
     return;
   }
 
   const sortMode = elements.sortOrder.value;
-  weatherData.forecast.sort((a, b) => {
+  return [...items].sort((a, b) => {
     if (sortMode === "temp-asc") {
       return a.temperature - b.temperature;
     }
@@ -391,39 +424,37 @@ function filterForecasts(){
 
 }
 
-function applySort() {
+function applyFiltersAndSort(){
   if (!weatherData) {
     renderForecastCards([]);
     return;
   }
 
-  const items = sortForecasts();
-  renderForecastCards(items);
-}
-
-function applyFilter(){
-  if (!weatherData) {
-    renderForecastCards([]);
-    return;
-  }
-  const items = filterForecasts();
-  renderForecastCards(items);
+  const filtered = filterForecasts();
+  const sorted = sortForecasts(filtered);
+  renderForecastCards(sorted);
 }
 
 elements.filterForm.addEventListener("submit", event => {
   event.preventDefault();
-  applyFilter();
-  applySort();
+  if (!validateFilters()) {
+    return;
+  }
+
+  elements.minError.textContent = "";
+  elements.maxError.textContent = "";
+  elements.conditionError.textContent = "";
+
+  applyFiltersAndSort();
 });
 
 elements.clearFilters.addEventListener("click", () => {
   elements.filterForm.reset();
-  applyFilter();
-  applySort();
+  applyFiltersAndSort();
 });
 
 elements.sortOrder.addEventListener("change", () => {
-  applySort();
+  applyFiltersAndSort();
 });
 
 executePipeline("Seattle");
