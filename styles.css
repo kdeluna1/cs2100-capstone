@@ -6,11 +6,13 @@
     --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
+    --text-error: #e94949;
     --border-color: #334155;
     --border-active: #475569;
     --btn-primary: #818cf8;
     --btn-primary-text: #0f172a;
-    --btn-dark: #334155;
+    --btn-hover: #ffffff;
+    --btn-dark: #3f496f;
     --btn-active: #6366f1;
     --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
     --radius: 10px;
@@ -188,11 +190,11 @@ button {
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  background-color: var(--btn-hover);
 }
 
 .btn-unit {
-  background-color: transparent;
+  background-color: var(--btn-dark);
   color: var(--text-muted);
   border-color: var(--border-color);
 }
@@ -201,6 +203,11 @@ button {
   background-color: var(--btn-dark);
   color: var(--text-primary);
   border-color: var(--btn-primary);
+}
+
+.btn-unit:hover{
+  background-color: var(--btn-hover);
+  color: var(--btn-primary-text);
 }
 
 .btn-save {
@@ -348,7 +355,7 @@ button {
 }
 
 .error-message{
-  color: var(--text-muted);
+  color: var(--text-error);
 }
 
 footer {
