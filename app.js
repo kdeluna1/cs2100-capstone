@@ -362,6 +362,28 @@ function sortForecasts() {
   return;
 }
 
+function filterForecasts(){
+  if (!weatherData){
+    return;
+  }
+
+  const conditionQuery = elements.conditionFilter.value.trim().toLowerCase();
+  const minText = elements.minTemp.value.trim();
+  const maxText = elements.maxTemp.value.trim();
+  const minNum = minText === "" ? null : Number(minText);
+  const maxNum = maxText === "" ? null : Number(maxText);
+
+  const filtered = weatherData.forecast.filter(item => {
+    const matchesCondition = !conditionQuery || item.condition.toLowerCase().includes(conditionQuery);
+    const matchesMin = minNum === null || Number.isNaN(minNum) || item.temperature >= minNum;
+    const matchesMax = maxNum === null || Number.isNaN(maxNum) || item.temperature <= maxNum;
+    return matchesCondition && matchesMin && matchesMax;
+  });
+
+  return filtered;
+
+}
+
 function applySort() {
   if (!weatherData) {
     renderForecastCards([]);
@@ -371,6 +393,21 @@ function applySort() {
   const items = sortForecasts();
   renderForecastCards(items);
 }
+
+function applyFilter(){
+  if (!weatherData) {
+    renderForecastCards([]);
+    return;
+  }
+  const items = filterForecasts();
+  renderForecastCards(items);
+}
+
+elements.filterForm.addEventListener("submit", event => {
+  event.preventDefault();
+  applyFilter();
+});
+
 
 elements.sortOrder.addEventListener("change", () => {
   applySort();
