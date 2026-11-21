@@ -347,6 +347,10 @@ button {
   height: 220px;
 }
 
+.error-message{
+  color: var(--text-muted);
+}
+
 footer {
   text-align: center;
   padding-bottom: 1em;

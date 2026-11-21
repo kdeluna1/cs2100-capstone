@@ -13,7 +13,9 @@
 <body>
     <header>
         <div class="header-content">
-            <a href="index.html"><h1 class="title">HORIZON</h1></a>
+            <a href="index.html">
+                <h1 class="title">HORIZON</h1>
+            </a>
             <nav aria-label="Main navigation">
                 <a href="index.html">Home</a>
                 <a href="cities.html">Saved Cities</a>
@@ -29,7 +31,7 @@
         </section>
         <section class="card search-section">
             <h2>FIND A CITY</h2>
-            <form class="search-form" id = "city-form" novalidate>
+            <form class="search-form" id="city-form" novalidate>
                 <input id="city-input" type="search" class="input-field" placeholder="Enter a city (e.g., Atlanta)"
                     required>
                 <span class="error-message" id="city-error" aria-live="polite"></span>
@@ -63,7 +65,7 @@
                     <span class="forecast-title">Hourly Forecast</span>
                     <div class="chart-container">
                         <canvas id="hourlyChart"></canvas>
-                    </div>  
+                    </div>
                 </div>
                 <div class="forecast-box" style="margin-top: 24px;">
                     <span class="forecast-title">5-Day Forecast</span>
@@ -80,20 +82,21 @@
                     <label for="condition-filter">Condition contains</label>
                     <input id="condition-filter" class="input-field" type="search" placeholder="e.g., rain"
                         maxlength="40" aria-describedby="condition-error">
-                    <span class="error-message" id="condition-error" aria-live="polite"></span>
+
                 </div>
                 <div class="field-group">
                     <label for="min-temp">Minimum temperature (<span class="unit-label">°F</span>)</label>
                     <input id="min-temp" class="input-field" type="number" step="any" placeholder="e.g., 40"
                         aria-describedby="min-error">
-                    <span class="error-message" id="min-error" aria-live="polite"></span>
                 </div>
                 <div class="field-group">
                     <label for="max-temp">Maximum temperature (<span class="unit-label">°F</span>)</label>
                     <input id="max-temp" class="input-field" type="number" step="any" placeholder="e.g., 80"
                         aria-describedby="max-error">
-                    <span class="error-message" id="max-error" aria-live="polite"></span>
                 </div>
+                <span class="error-message" id="condition-error" aria-live="polite"></span>
+                <span class="error-message" id="min-error" aria-live="polite"></span>
+                <span class="error-message" id="max-error" aria-live="polite"></span>
                 <div class="filter-buttons">
                     <button type="submit" class="btn-primary">APPLY FILTERS</button>
                     <button type="button" class="btn-unit" id="clear-filters">CLEAR FILTERS</button>
@@ -113,7 +116,7 @@
             <div id="forecast-list" class="forecast-grid">
                 <p class="empty-state">Your forecast cards will load here.</p>
             </div>
-            
+
         </section>
     </main>
     <footer>

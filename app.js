@@ -278,7 +278,7 @@ function updateUnitButtons() {
   elements.imperialButton.setAttribute("aria-pressed", String(imperial));
   elements.metricButton.setAttribute("aria-pressed", String(!imperial));
   document.querySelectorAll(".unit-label").forEach(label => {
-    label.textContent = getUnitSymbols().symbol;
+    label.textContent = getUnitSymbols().temp;
   });
 }
 
@@ -398,8 +398,6 @@ function sortForecasts(items = weatherData ? weatherData.forecast : []) {
     }
     return a.timestamp - b.timestamp;
   });
-
-  return;
 }
 
 function filterForecasts(){
