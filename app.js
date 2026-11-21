@@ -342,4 +342,38 @@ function renderForecastCards(forecastItems = weatherData ? weatherData.forecast 
   elements.forecastList.replaceChildren(fragment);
   elements.resultsCount.textContent = `Showing ${forecastItems.length} of ${weatherData.forecast.length} forecast intervals`;
 }
+
+function sortForecasts() {
+  if (!weatherData){
+    return;
+  }
+
+  const sortMode = elements.sortOrder.value;
+  weatherData.forecast.sort((a, b) => {
+    if (sortMode === "temp-asc") {
+      return a.temperature - b.temperature;
+    }
+    if (sortMode === "temp-desc") {
+      return b.temperature - a.temperature;
+    }
+    return a.timestamp - b.timestamp;
+  });
+
+  return;
+}
+
+function applySort() {
+  if (!weatherData) {
+    renderForecastCards([]);
+    return;
+  }
+
+  const items = sortForecasts();
+  renderForecastCards(items);
+}
+
+elements.sortOrder.addEventListener("change", () => {
+  applySort();
+});
+
 executePipeline("Seattle");
