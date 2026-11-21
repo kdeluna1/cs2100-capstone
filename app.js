@@ -120,8 +120,32 @@ function renderCharts(model = weatherData) {
   );
   const hourlyTemps = upcoming.map(item => item.temperature);
 
+  const dailyMap = new Map();
+  model.forecast.forEach(item => {
+    const date = new Date(item.timestamp * 1000).toLocaleDateString([], {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    });
+    if (!dailyMap.has(date)) {
+      dailyMap.set(date, { min: item.tempMin, max: item.tempMax });
+    } else {
+      const currDay = dailyMap.get(date);
+      currDay.min = Math.min(currDay.min, item.tempMin);
+      currDay.max = Math.max(currDay.max, item.tempMax);
+    }
+  });
+
+  const dailyLabels = Array.from(dailyMap.keys()).slice(0, 5);
+  const dailyHighs = dailyLabels.map(day => dailyMap.get(day).max);
+  const dailyLows = dailyLabels.map(day => dailyMap.get(day).min);
+
   if (hourlyChart) {
     hourlyChart.destroy();
+  }
+
+  if (dailyChart) {
+    dailyChart.destroy();
   }
 
   if (elements.hourlyCanvas) {
@@ -155,6 +179,51 @@ function renderCharts(model = weatherData) {
           x: {
             ticks: { color: "#cbd5e1" },
             grid: { color: "rgba(148, 163, 184, 0.15)" }
+          },
+          y: {
+            ticks: {
+              color: "#cbd5e1",
+              callback: value => `${value}${units.temp}`
+            },
+            grid: { color: "rgba(148, 163, 184, 0.15)" }
+          }
+        }
+      }
+    });
+  }
+
+  if (elements.dailyCanvas) {
+    dailyChart = new Chart(elements.dailyCanvas, {
+      type: "bar",
+      data: {
+        labels: dailyLabels,
+        datasets: [
+          {
+            label: `High (${units.temp})`,
+            data: dailyHighs,
+            backgroundColor: "#818cf8",
+            borderRadius: 6
+          },
+          {
+            label: `Low (${units.temp})`,
+            data: dailyLows,
+            backgroundColor: "#475569",
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: "#f8fafc" }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: "#cbd5e1" },
+            grid: { display: false }
           },
           y: {
             ticks: {
